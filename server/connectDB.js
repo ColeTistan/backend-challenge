@@ -1,20 +1,14 @@
-const mysql = require('mysql');
+const mysql = require('mysql2');
 const dotenv = require('dotenv');
 
-dotenv.config()
+dotenv.config();
 
-const connection = mysql.createConnection({
-    host: process.env.HOST,
-    username: process.env.USER,
+const pool = mysql.createPool({
+    connectionLimit: 10,
+    host: 'localhost',
+    user: 'root',
     password: process.env.PASSWORD,
-    database: process.env.DATABASE
+    database: 'pizza_order'
 });
 
-connection.connect((error) => {
-    if (error) {
-        throw error;
-    }
-
-    console.log(`Connected to database on ID: ${connection.threadId}`);
-});
-
+module.exports = pool;
